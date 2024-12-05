@@ -25,8 +25,8 @@ func main() {
 			count += getCountsForLocation(matrix, p)
 		}
 	}
-	// count = getCountsForLocation(matrix, Point{x: 4, y: 1})
 	fmt.Println("Part 1: ", count)
+
 	// Part 2
 	count = 0
 	for y := 0; y < Y; y++ {
@@ -38,7 +38,6 @@ func main() {
 		}
 	}
 	fmt.Println("Part 2: ", count)
-
 }
 
 func readIntoMatrix(fname string) [][]string {
@@ -94,23 +93,15 @@ func getCountsForLocation(matrix [][]string, p Point) int {
 func isXMAS(matrix [][]string, p Point) bool {
 	Xmax := len(matrix[0])
 	Ymax := len(matrix)
-	// precondtion to start should be M or S and have 2 more X direction and 2 more Y direction left
-	if p.x > Xmax-3 || p.y > Ymax-3 || !(matrix[p.y][p.x] == "M" || matrix[p.y][p.x] == "S") {
+	if p.x > Xmax-3 || p.y > Ymax-3 {
 		return false
 	}
 
 	string1 := matrix[p.y][p.x] + matrix[p.y+1][p.x+1] + matrix[p.y+2][p.x+2]
 	string2 := matrix[p.y][p.x+2] + matrix[p.y+1][p.x+1] + matrix[p.y+2][p.x]
-	if isMAS(string1) && isMAS(string2) {
-		return true
-	}
-	return false
-
+	return isMAS(string1) && isMAS(string2)
 }
 
 func isMAS(s string) bool {
-	if s == "MAS" || s == "SAM" {
-		return true
-	}
-	return false
+	return s == "MAS" || s == "SAM"
 }
