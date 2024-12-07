@@ -27,3 +27,16 @@ func MustParseInt(s string) int {
 	}
 	return n
 }
+
+func ReadIntoMatrix(fname string) [][]string {
+	lines := MustReadLines(fname)
+	var result [][]string
+	for _, line := range lines {
+		var temp []string
+		for _, char := range line {
+			temp = append(temp, string(char))
+		}
+		result = append(result, temp)
+	}
+	return result
+}
