@@ -55,7 +55,7 @@ func part2IsLooping(input [][]string, initpos coord, initdir coord) int {
 		newInput := makeDeepCopy(input)
 		newInput[c.y][c.x] = "#"
 		if isLooping(newInput, initpos, initdir) {
-			fmt.Println("Looping at ", c)
+			// fmt.Println("Looping at ", c)
 			countLoopingPos++
 		}
 	}
@@ -67,13 +67,11 @@ func isLooping(input [][]string, curr coord, dir coord) bool {
 	visitedSimilarTimes := make(map[visitedSimilar]int)
 	maxX := len(input[0])
 	maxY := len(input)
-	isLooping := false
 	for {
 		visitedPositions[curr] = true
 		visitedSimilarTimes[visitedSimilar{coord: curr, dir: dir}]++
 		if visitedSimilarTimes[visitedSimilar{coord: curr, dir: dir}] > 1 {
-			isLooping = true
-			return isLooping
+			return true
 		}
 		nextStepCoord := moveOneStep(curr, dir)
 		if isStepOutside(nextStepCoord, maxX, maxY) {
@@ -81,12 +79,10 @@ func isLooping(input [][]string, curr coord, dir coord) bool {
 		}
 		nextStepChar := getValueAtCoord(nextStepCoord, input)
 		dir = getNextStepDir(nextStepChar, dir)
-		// Confirm if the next step is also not an obstacle
 		if getValueAtCoord(moveOneStep(curr, dir), input) == "#" {
 			dir = rotateRight(dir)
 		}
 		curr = moveOneStep(curr, dir)
-
 	}
 	return false
 }
